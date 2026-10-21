@@ -1,0 +1,303 @@
+
+[
+  {
+    "id": 1,
+    "title": "Docker build fails at npm install",
+    "keywords": ["docker build", "npm install", "package install", "dependency error"],
+    "problem": "Docker image build fails during npm install.",
+    "likely_cause": "Invalid package configuration, dependency conflicts, or network issues.",
+    "fix_steps": ["Read the complete npm error.", "Check package.json and package-lock.json.", "Run npm ci locally to verify dependencies.", "Rebuild the image after correcting the issue."],
+    "extra_tips": ["Use a consistent Node.js version.", "Avoid copying unnecessary files into the build context."],
+    "source": "https://docs.npmjs.com/cli/commands/npm-ci"
+  },
+  {
+    "id": 2,
+    "title": "Docker container exits immediately",
+    "keywords": ["container exits", "docker exit", "container stopped", "docker logs"],
+    "problem": "A Docker container starts and then stops.",
+    "likely_cause": "The main process exits, the application crashes, or its startup command is incorrect.",
+    "fix_steps": ["Check docker logs <container>.", "Inspect the container exit code.", "Verify the Dockerfile CMD or ENTRYPOINT.", "Correct the application error and restart the container."],
+    "extra_tips": ["Containers stay alive only while their main process runs."],
+    "source": "https://docs.docker.com/engine/containers/run/"
+  },
+  {
+    "id": 3,
+    "title": "Docker port conflict",
+    "keywords": ["port conflict", "address already in use", "docker port", "bind failed"],
+    "problem": "Docker cannot bind an application to a host port.",
+    "likely_cause": "Another process or container is already using the port.",
+    "fix_steps": ["Check which process uses the port.", "Inspect running containers and port mappings.", "Stop or reconfigure the conflicting service if appropriate.", "Restart the container with an available port."],
+    "extra_tips": ["Do not stop unfamiliar production services without approval."],
+    "source": "https://docs.docker.com/engine/network/"
+  },
+  {
+    "id": 4,
+    "title": "Kubernetes CrashLoopBackOff",
+    "keywords": ["CrashLoopBackOff", "pod crash", "kubernetes restart", "container restarting"],
+    "problem": "A Kubernetes container repeatedly crashes and restarts.",
+    "likely_cause": "Application errors, incorrect configuration, failed probes, or insufficient resources.",
+    "fix_steps": ["Run kubectl describe pod <pod-name>.", "Check kubectl logs <pod-name> --previous.", "Review configuration, probes, and resource limits.", "Apply a verified fix and monitor the pod."],
+    "extra_tips": ["Previous container logs often reveal the original crash."],
+    "source": "https://kubernetes.io/docs/concepts/workloads/pods/pod-lifecycle/"
+  },
+  {
+    "id": 5,
+    "title": "Kubernetes ImagePullBackOff",
+    "keywords": ["ImagePullBackOff", "ErrImagePull", "image pull", "image not found"],
+    "problem": "Kubernetes cannot pull a container image.",
+    "likely_cause": "Wrong image name or tag, missing registry access, or invalid image pull credentials.",
+    "fix_steps": ["Run kubectl describe pod <pod-name>.", "Verify the image name and tag.", "Check registry availability and permissions.", "Verify imagePullSecrets if the registry is private."],
+    "extra_tips": ["Avoid putting registry passwords directly in manifests."],
+    "source": "https://kubernetes.io/docs/concepts/containers/images/"
+  },
+  {
+    "id": 6,
+    "title": "AWS S3 AccessDenied",
+    "keywords": ["S3 AccessDenied", "AWS permission", "upload to S3", "s3 access denied"],
+    "problem": "An AWS S3 operation returns AccessDenied.",
+    "likely_cause": "Missing IAM permissions, bucket policy restrictions, or an explicit deny.",
+    "fix_steps": ["Identify the IAM principal making the request.", "Review IAM and bucket policies.", "Check the required S3 action and resource ARN.", "Retry only after an authorized policy correction."],
+    "extra_tips": ["Grant only the permissions required for the task."],
+    "source": "https://docs.aws.amazon.com/AmazonS3/latest/userguide/access-control-overview.html"
+  },
+  {
+    "id": 7,
+    "title": "AWS EC2 connection timeout",
+    "keywords": ["EC2 timeout", "SSH timeout", "connection timed out", "EC2 cannot connect"],
+    "problem": "A connection to an EC2 instance times out.",
+    "likely_cause": "Security group rules, routing, network ACLs, or instance availability problems.",
+    "fix_steps": ["Confirm the instance is running.", "Check the public or private network path.", "Review security groups and network ACLs.", "Verify that SSH or the required service is listening."],
+    "extra_tips": ["Allow access only from trusted networks."],
+    "source": "https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/TroubleshootingInstancesConnecting.html"
+  },
+  {
+    "id": 8,
+    "title": "GitHub Actions workflow fails",
+    "keywords": ["GitHub Actions", "workflow failed", "CI pipeline", "actions error"],
+    "problem": "A GitHub Actions workflow fails during a job.",
+    "likely_cause": "A failing command, missing secret, incorrect workflow configuration, or environment mismatch.",
+    "fix_steps": ["Open the failed workflow run.", "Inspect the first meaningful error in the logs.", "Check YAML syntax, versions, and required secrets.", "Correct the cause and rerun the workflow."],
+    "extra_tips": ["Never print secrets in workflow logs."],
+    "source": "https://docs.github.com/en/actions"
+  },
+  {
+    "id": 9,
+    "title": "HTTP 502 Bad Gateway",
+    "keywords": ["502", "502 Bad Gateway", "bad gateway", "upstream server"],
+    "problem": "A gateway or proxy returns HTTP 502.",
+    "likely_cause": "The upstream server is unavailable, unreachable, or returning an invalid response.",
+    "fix_steps": ["Check the upstream application's health.", "Inspect reverse proxy and application logs.", "Verify upstream host, port, and protocol.", "Test connectivity between the proxy and upstream service."],
+    "extra_tips": ["Check whether the issue started after a deployment."],
+    "source": "https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/502"
+  },
+  {
+    "id": 10,
+    "title": "Application out of memory",
+    "keywords": ["out of memory", "OOMKilled", "memory limit", "OOM"],
+    "problem": "An application crashes or is terminated because memory is exhausted.",
+    "likely_cause": "Memory leaks, excessive workload, or insufficient configured memory.",
+    "fix_steps": ["Inspect application and system memory metrics.", "Check container termination reason and memory limits.", "Look for leaks or unusually large workloads.", "Tune resource limits only after reviewing capacity."],
+    "extra_tips": ["Increasing memory alone may hide an underlying leak."],
+    "source": "https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/"
+  },
+  {
+    "id": 11,
+    "title": "Docker image not found",
+    "keywords": ["image not found", "pull access denied", "manifest unknown", "docker image missing"],
+    "problem": "Docker cannot find or pull the requested image.",
+    "likely_cause": "Incorrect image name or tag, missing image, or private registry access restrictions.",
+    "fix_steps": ["Verify the image repository and tag.", "Check whether the image exists in the registry.", "Authenticate to the registry if required.", "Confirm access permissions and retry."],
+    "extra_tips": ["Use explicit version tags instead of relying on latest."],
+    "source": "https://docs.docker.com/reference/cli/docker/image/pull/"
+  },
+  {
+    "id": 12,
+    "title": "Docker permission denied",
+    "keywords": ["docker permission denied", "cannot connect docker daemon", "docker.sock", "permission error"],
+    "problem": "A user cannot access the Docker daemon or a mounted file.",
+    "likely_cause": "Insufficient operating-system permissions or incorrect file ownership.",
+    "fix_steps": ["Read the complete permission error.", "Check Docker daemon status and socket permissions.", "Review ownership and access to mounted files.", "Apply the approved least-privilege permission change."],
+    "extra_tips": ["Do not change permissions broadly or expose the Docker socket unnecessarily."],
+    "source": "https://docs.docker.com/engine/install/linux-postinstall/"
+  },
+  {
+    "id": 13,
+    "title": "Docker container cannot resolve DNS",
+    "keywords": ["docker DNS", "DNS resolution", "could not resolve host", "container network"],
+    "problem": "A container cannot resolve a hostname.",
+    "likely_cause": "DNS configuration problems, network isolation, or an incorrect hostname.",
+    "fix_steps": ["Verify the hostname and DNS record.", "Test name resolution inside the container.", "Inspect Docker network configuration.", "Check the host's DNS and network connectivity."],
+    "extra_tips": ["Containers on the same custom network can resolve one another by service or container name."],
+    "source": "https://docs.docker.com/engine/network/"
+  },
+  {
+    "id": 14,
+    "title": "Docker volume data missing",
+    "keywords": ["docker volume", "data missing", "volume mount", "container data lost"],
+    "problem": "Application data is missing after a container restart or recreation.",
+    "likely_cause": "Data was stored in the container's writable layer or the wrong volume path was mounted.",
+    "fix_steps": ["Inspect the container's mount configuration.", "Check the source volume or host directory.", "Verify the application's data path.", "Restore from backup if data was lost."],
+    "extra_tips": ["Use persistent volumes for important data and test backups."],
+    "source": "https://docs.docker.com/engine/storage/volumes/"
+  },
+  {
+    "id": 15,
+    "title": "Kubernetes pod stuck Pending",
+    "keywords": ["pod Pending", "Kubernetes Pending", "unschedulable pod", "FailedScheduling"],
+    "problem": "A Kubernetes pod remains in Pending state.",
+    "likely_cause": "Insufficient cluster resources, scheduling constraints, or unavailable persistent volumes.",
+    "fix_steps": ["Run kubectl describe pod <pod-name>.", "Read scheduling events.", "Check node capacity, selectors, taints, and tolerations.", "Review persistent volume claims if applicable."],
+    "extra_tips": ["Use the scheduler event message to identify the specific blocker."],
+    "source": "https://kubernetes.io/docs/concepts/scheduling-eviction/"
+  },
+  {
+    "id": 16,
+    "title": "Kubernetes Service unreachable",
+    "keywords": ["Kubernetes service unreachable", "service connection refused", "service endpoints", "cluster service"],
+    "problem": "An application cannot reach a Kubernetes Service.",
+    "likely_cause": "Incorrect selectors, missing endpoints, wrong service port, or network policy restrictions.",
+    "fix_steps": ["Inspect the Service and its selectors.", "Check whether ready pod endpoints exist.", "Verify port and targetPort values.", "Review network policies and application listening ports."],
+    "extra_tips": ["A Service can exist even when it has no usable endpoints."],
+    "source": "https://kubernetes.io/docs/concepts/services-networking/service/"
+  },
+  {
+    "id": 17,
+    "title": "Kubernetes pod ImagePullSecret failure",
+    "keywords": ["imagePullSecrets", "registry authentication", "unauthorized image", "private registry"],
+    "problem": "A pod cannot authenticate to a private image registry.",
+    "likely_cause": "Missing, invalid, or incorrectly scoped registry credentials.",
+    "fix_steps": ["Check pod events for authentication errors.", "Confirm the Secret exists in the pod's namespace.", "Verify the Secret type and registry address.", "Refresh credentials using an approved secure process."],
+    "extra_tips": ["Do not paste registry credentials into chat or source control."],
+    "source": "https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/"
+  },
+  {
+    "id": 18,
+    "title": "Kubernetes liveness probe failing",
+    "keywords": ["liveness probe", "probe failed", "Kubernetes health check", "container probe"],
+    "problem": "Kubernetes repeatedly restarts a container after liveness probe failures.",
+    "likely_cause": "Incorrect probe path or port, slow startup, or an unhealthy application.",
+    "fix_steps": ["Inspect pod events and probe configuration.", "Verify the configured path and port.", "Check application startup time and health.", "Adjust probe timing only when justified by observed behavior."],
+    "extra_tips": ["Use a startup probe for applications that need longer to initialize."],
+    "source": "https://kubernetes.io/docs/concepts/configuration/liveness-readiness-startup-probes/"
+  },
+  {
+    "id": 19,
+    "title": "Kubernetes ConfigMap or Secret missing",
+    "keywords": ["ConfigMap missing", "Secret not found", "CreateContainerConfigError", "configuration missing"],
+    "problem": "A pod cannot start because a referenced ConfigMap or Secret is unavailable.",
+    "likely_cause": "The resource is missing, incorrectly named, or in another namespace.",
+    "fix_steps": ["Inspect pod events.", "Verify the resource name and namespace.", "Check the pod's environment or volume references.", "Create or correct the resource through the approved deployment process."],
+    "extra_tips": ["Keep credentials in Kubernetes Secrets or an approved secret manager."],
+    "source": "https://kubernetes.io/docs/concepts/configuration/"
+  },
+  {
+    "id": 20,
+    "title": "AWS IAM role credentials unavailable",
+    "keywords": ["AWS credentials", "IAM role", "Unable to locate credentials", "credential provider"],
+    "problem": "An AWS SDK or CLI cannot obtain credentials.",
+    "likely_cause": "Missing credential configuration, an unavailable instance role, or an incorrect execution environment.",
+    "fix_steps": ["Identify where the application runs.", "Check the configured AWS credential provider.", "Verify that the intended role is attached and available.", "Check relevant SDK or CLI error messages."],
+    "extra_tips": ["Prefer temporary role credentials over hardcoded access keys."],
+    "source": "https://docs.aws.amazon.com/sdkref/latest/guide/standardized-credentials.html"
+  },
+  {
+    "id": 21,
+    "title": "AWS EC2 instance status check failed",
+    "keywords": ["EC2 status check", "instance status check failed", "system reachability", "instance reachability"],
+    "problem": "An EC2 instance fails a status check.",
+    "likely_cause": "Underlying host issues, operating-system problems, or incorrect network configuration.",
+    "fix_steps": ["Check instance and system status checks in AWS.", "Review the system log and console output.", "Inspect recent configuration changes.", "Follow AWS recovery guidance appropriate to the failed check."],
+    "extra_tips": ["Preserve important data before attempting recovery actions."],
+    "source": "https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/monitoring-system-instance-status-check.html"
+  },
+  {
+    "id": 22,
+    "title": "AWS S3 bucket access or region error",
+    "keywords": ["S3 wrong region", "PermanentRedirect", "bucket region", "S3 endpoint"],
+    "problem": "An S3 request fails because the endpoint or bucket region is incorrect.",
+    "likely_cause": "The client is using an endpoint or region that does not match the bucket.",
+    "fix_steps": ["Confirm the bucket's actual region.", "Check the region configured in the SDK or CLI.", "Use the appropriate regional endpoint.", "Retry and inspect any remaining error."],
+    "extra_tips": ["Do not assume a bucket's region from the application's region."],
+    "source": "https://docs.aws.amazon.com/AmazonS3/latest/API/UsingRouting.html"
+  },
+  {
+    "id": 23,
+    "title": "CI/CD pipeline test stage fails",
+    "keywords": ["pipeline tests failed", "unit tests failing", "CI test failure", "test stage failed"],
+    "problem": "A CI/CD pipeline fails during automated tests.",
+    "likely_cause": "A real regression, missing test dependency, environment difference, or flaky test.",
+    "fix_steps": ["Open the failing test logs.", "Identify the first failed assertion or setup step.", "Reproduce the test in a matching environment.", "Fix the underlying cause and rerun the relevant tests."],
+    "extra_tips": ["Do not skip failing tests just to make a pipeline green."],
+    "source": "https://docs.github.com/en/actions"
+  },
+  {
+    "id": 24,
+    "title": "CI/CD deployment fails due to missing environment variable",
+    "keywords": ["missing environment variable", "env variable missing", "deployment configuration", "undefined variable"],
+    "problem": "An application fails to start or deploy because a required environment variable is absent.",
+    "likely_cause": "The variable was not configured in the deployment environment or its name differs from the application configuration.",
+    "fix_steps": ["Read the startup error.", "List required variable names without exposing their values.", "Check environment-specific configuration.", "Add missing values through the approved secret or configuration manager."],
+    "extra_tips": ["Never print secret values in pipeline logs."],
+    "source": "https://docs.github.com/en/actions/security-for-github-actions/security-guides/using-secrets-in-github-actions"
+  },
+  {
+    "id": 25,
+    "title": "CI/CD pipeline permission denied",
+    "keywords": ["pipeline permission denied", "GitHub Actions permissions", "GITHUB_TOKEN", "workflow access denied"],
+    "problem": "A workflow cannot access a repository resource or perform an action.",
+    "likely_cause": "Insufficient token permissions, repository policy restrictions, or an unauthorized deployment identity.",
+    "fix_steps": ["Identify the operation that was denied.", "Review workflow and repository permissions.", "Grant only the required permissions.", "Rerun the workflow and verify the result."],
+    "extra_tips": ["Use least-privilege token permissions."],
+    "source": "https://docs.github.com/en/actions/security-for-github-actions/security-guides/automatic-token-authentication"
+  },
+  {
+    "id": 26,
+    "title": "HTTP 503 Service Unavailable",
+    "keywords": ["503", "503 Service Unavailable", "service unavailable", "overloaded server"],
+    "problem": "A server returns HTTP 503 because it cannot currently handle the request.",
+    "likely_cause": "Overload, maintenance, unhealthy upstream services, or insufficient available capacity.",
+    "fix_steps": ["Check service health and monitoring metrics.", "Inspect application and proxy logs.", "Verify dependency and upstream availability.", "Restore capacity or service health and monitor recovery."],
+    "extra_tips": ["Use retries with backoff where appropriate; avoid retry storms."],
+    "source": "https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/503"
+  },
+  {
+    "id": 27,
+    "title": "HTTP 504 Gateway Timeout",
+    "keywords": ["504", "504 Gateway Timeout", "gateway timeout", "upstream timeout"],
+    "problem": "A gateway returns HTTP 504 because an upstream response took too long.",
+    "likely_cause": "A slow application, overloaded dependency, network delay, or overly restrictive timeout.",
+    "fix_steps": ["Inspect gateway and application logs.", "Measure upstream response time.", "Check database and external service latency.", "Fix the slow dependency before changing timeouts."],
+    "extra_tips": ["Increasing timeouts alone may hide performance problems."],
+    "source": "https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/504"
+  },
+  {
+    "id": 28,
+    "title": "Application connection refused",
+    "keywords": ["connection refused", "ECONNREFUSED", "service not listening", "localhost connection"],
+    "problem": "A client receives a connection refused error when contacting a service.",
+    "likely_cause": "No service is listening on the destination port, or the host or port is incorrect.",
+    "fix_steps": ["Verify the destination hostname and port.", "Check whether the service is running and listening.", "Inspect container or host port mappings.", "Review firewall and network configuration."],
+    "extra_tips": ["Inside a container, localhost refers to that container itself."],
+    "source": "https://docs.docker.com/engine/network/"
+  },
+  {
+    "id": 29,
+    "title": "Git merge conflict in deployment branch",
+    "keywords": ["git merge conflict", "merge conflict", "conflicting files", "git rebase conflict"],
+    "problem": "Git cannot automatically merge conflicting changes.",
+    "likely_cause": "Different branches changed overlapping lines or files.",
+    "fix_steps": ["Run git status to identify conflicted files.", "Review both changes and edit the conflict markers.", "Run relevant tests after resolving conflicts.", "Stage resolved files and complete the merge or rebase."],
+    "extra_tips": ["Do not discard another contributor's changes without reviewing them."],
+    "source": "https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/addressing-merge-conflicts/about-merge-conflicts"
+  },
+  {
+    "id": 30,
+    "title": "TLS or SSL certificate error",
+    "keywords": ["SSL error", "TLS certificate", "certificate expired", "certificate verify failed"],
+    "problem": "A client cannot establish a trusted TLS connection.",
+    "likely_cause": "An expired certificate, hostname mismatch, incomplete certificate chain, or untrusted certificate authority.",
+    "fix_steps": ["Read the complete certificate error.", "Verify certificate expiry and hostname.", "Check the certificate chain and server configuration.", "Renew or correctly configure the certificate using an approved process."],
+    "extra_tips": ["Do not disable certificate verification as a permanent fix."],
+    "source": "https://developer.mozilla.org/en-US/docs/Web/Security/Transport_Layer_Security"
+  }
+]
