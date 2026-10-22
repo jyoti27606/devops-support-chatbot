@@ -44,8 +44,6 @@ git clone https://github.com/jyoti27606/devops-support-chatbot.git
 cd devops-support-chatbot
 ```
 
-Replace the placeholder with the actual repository URL.
-
 ### 2. Install dependencies
 
 ```bash
